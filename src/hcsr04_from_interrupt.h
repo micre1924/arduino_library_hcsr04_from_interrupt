@@ -14,7 +14,7 @@ public:
     @param echoPin must be interruptable
      */
     hcsr04_from_interrupt(int triggerPin, int echoPin ,int initEnvTemp = 22);
-    void trigger(int envTemp);
+    void trigger();
     // set this function as the callback for interrupt on the "echoPin"
     void interruptAction();
 };

@@ -20,7 +20,7 @@ hcsr04_from_interrupt::hcsr04_from_interrupt(int triggerPin, int echoPin ,int in
 	envTemperature = this->envTemperature;
 
 }
-void hcsr04_from_interrupt::trigger(int envTemp){
+void hcsr04_from_interrupt::trigger(){
 	digitalWrite(triggerPin, HIGH);
 	delayMicroseconds(10);
 	digitalWrite(triggerPin, LOW);
