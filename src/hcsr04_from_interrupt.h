@@ -1,6 +1,6 @@
 #include "Arduino.h"
 
-// for this to work you have to manually attache the interrupt to a callback (<uniqe_callback>))
+// for this to work you have to manually attach the interrupt to a callback (<uniqe_callback>))
 // like attachInterrupt(digitalPinToInterrupt(<echoPin>), <uniqe_callback>, CHANGE);
 // for every instance insert void <uniqe_callback>() { <created_instance>.onChangeInterruptAction(); }
 // before setup() function to prevent scope issues
