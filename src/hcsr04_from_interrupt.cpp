@@ -1,7 +1,7 @@
 #include <Arduino.h>
 #include "hcsr04_from_interrupt.h"
 
-void hcsr04_from_interrupt::onChangeInterrupt() {
+void hcsr04_from_interrupt::onChangeInterruptAction() {
 	if(digitalRead(hcsr04_from_interrupt::echoPin)) {
 		echoStartTimestamp = micros();
 	}
@@ -18,9 +18,8 @@ hcsr04_from_interrupt::hcsr04_from_interrupt(int triggerPin, int echoPin ,int in
 	this->triggerPin = triggerPin;
 	this->echoPin = echoPin;
 	this->envTemperature = initEnvTemp;
-	attachInterrupt(digitalPinToInterrupt(echoPin), hcsr04_from_interrupt::onChangeInterrupt, CHANGE);
 }
-void hcsr04_from_interrupt::trigger(int envTemp){
+void hcsr04_from_interrupt::trigger(){
 	digitalWrite(triggerPin, HIGH);
 	delayMicroseconds(10);
 	digitalWrite(triggerPin, LOW);

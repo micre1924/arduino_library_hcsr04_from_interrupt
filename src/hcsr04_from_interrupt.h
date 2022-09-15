@@ -1,23 +1,25 @@
 #include "Arduino.h"
 
-// - static members is not the way this is planned, but for temporary function of the library tollerated
-// - there is a temporary limit of one instance of this class because of the interruption management
+// for this to work you have to manually attache the interrupt to a callback (<uniqe_callback>))
+// like attachInterrupt(digitalPinToInterrupt(<echoPin>), <uniqe_callback>, CHANGE);
+// for every instance insert void <uniqe_callback>() { <created_instance>.onChangeInterruptAction(); }
+// before setup() function to prevent scope issues
 class hcsr04_from_interrupt{
 public:
     
-    static int envTemperature;
-    static int triggerPin;
-    static int echoPin;
-    static int distanceMM;
-    static unsigned long echoStartTimestamp;
-    static unsigned int triggerEchoPeriode;
+    int envTemperature;
+    int triggerPin;
+    int echoPin;
+    int distanceMM;
+    unsigned long echoStartTimestamp;
+    unsigned int triggerEchoPeriode;
 
     /*
     @param triggerPin don't has to be interruptable
     @param echoPin must be interruptable
      */
     hcsr04_from_interrupt(int triggerPin, int echoPin ,int initEnvTemp = 22);
-    void trigger(int envTemp);
+    void trigger();
     // set this function as the callback for interrupt on the "echoPin"
-    static void onChangeInterrupt();
+    void onChangeInterruptAction();
 };
