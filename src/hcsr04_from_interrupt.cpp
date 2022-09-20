@@ -9,9 +9,9 @@ namespace mrc{
 		else {
 			data.EchoPeriode = micros() - data.echoStartTimestamp;
 			data.echoStartTimestamp = micros();
-			data.distance = ( (331.3F + (0.606F * data.envTemperature)) * data.triggerEchoPeriode ) / 2000;
+			data.distance = ( (331.3F + (0.606F * data.envTemperature)) * data.EchoPeriode ) / 2000;
 			onMeasureEnd(data);
-			if(data.distance)
+			if(data.distance > data.maxDistance || data.distance < data.minDistance ) onInvalidMeasure(data); else onValidMeasure(data);
 		}
 	}
 
