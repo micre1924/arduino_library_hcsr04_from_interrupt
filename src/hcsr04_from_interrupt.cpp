@@ -1,26 +1,31 @@
 #include <Arduino.h>
 #include "hcsr04_from_interrupt.h"
 
-void hcsr04_from_interrupt::onChangeInterruptAction() {
-	if(digitalRead(hcsr04_from_interrupt::echoPin)) {
-		echoStartTimestamp = micros();
+namespace mrc{
+	void hcsr04_from_interrupt::onChangeInterruptAction() {
+		if(digitalRead(hcsr04_from_interrupt::echoPin)) {
+			data.echoStartTimestamp = micros();
+		}
+		else {
+			data.EchoPeriode = micros() - data.echoStartTimestamp;
+			data.echoStartTimestamp = micros();
+			data.distance = ( (331.3F + (0.606F * data.envTemperature)) * data.triggerEchoPeriode ) / 2000;
+			onMeasureEnd(data);
+			if(data.distance)
+		}
 	}
-	else {
-		triggerEchoPeriode = micros() - echoStartTimestamp;
-		echoStartTimestamp = micros();
-		distanceMM = ( (331.3F + (0.606F * envTemperature)) * triggerEchoPeriode ) / 2000;
-	}
-}
 
-hcsr04_from_interrupt::hcsr04_from_interrupt(int triggerPin, int echoPin ,int initEnvTemp = 22){
-	pinMode(echoPin, INPUT);
-	pinMode(triggerPin, OUTPUT);
-	this->triggerPin = triggerPin;
-	this->echoPin = echoPin;
-	this->envTemperature = initEnvTemp;
-}
-void hcsr04_from_interrupt::trigger(){
-	digitalWrite(triggerPin, HIGH);
-	delayMicroseconds(10);
-	digitalWrite(triggerPin, LOW);
+	hcsr04_from_interrupt::hcsr04_from_interrupt(int triggerPin, int echoPin ,int initEnvTemp = 22){
+		pinMode(echoPin, INPUT);
+		pinMode(triggerPin, OUTPUT);
+		this->triggerPin = triggerPin;
+		this->echoPin = echoPin;
+		data.envTemperature = initEnvTemp;
+	}
+	void hcsr04_from_interrupt::trigger(){
+		digitalWrite(triggerPin, HIGH);
+		delayMicroseconds(10);
+		digitalWrite(triggerPin, LOW);
+		onMeasureStart(data);
+	}
 }
