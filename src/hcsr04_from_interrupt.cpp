@@ -1,5 +1,6 @@
 #include <Arduino.h>
 #include "hcsr04_from_interrupt.h"
+typedef unsigned char uint8_t;
 
 namespace mrc{
 	void hcsr04_from_interrupt::onChangeInterruptAction() {
@@ -15,7 +16,7 @@ namespace mrc{
 		}
 	}
 
-	hcsr04_from_interrupt::hcsr04_from_interrupt(int triggerPin, int echoPin ,int initEnvTemp = 22){
+	hcsr04_from_interrupt::hcsr04_from_interrupt(uint8_t triggerPin, uint8_t echoPin ,int initEnvTemp = 22){
 		pinMode(echoPin, INPUT);
 		pinMode(triggerPin, OUTPUT);
 		this->triggerPin = triggerPin;

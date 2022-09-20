@@ -1,4 +1,5 @@
 #include "Arduino.h"
+typedef unsigned char uint8_t;
 
 namespace mrc{
 
@@ -24,8 +25,8 @@ namespace mrc{
     class hcsr04_from_interrupt{
     public:
         hcsr04Args data;
-        int triggerPin;
-        int echoPin;
+        uint8_t triggerPin;
+        uint8_t echoPin;
         void(*onValidMeasure)(hcsr04Args);
         void(*onInvalidMeasure)(hcsr04Args);
         void(*onMeasureStart)(hcsr04Args);
@@ -34,7 +35,7 @@ namespace mrc{
         @param triggerPin don't has to be interruptable
         @param echoPin must be interruptable
         */
-        hcsr04_from_interrupt(int triggerPin, int echoPin ,int initEnvTemp = 22);
+        hcsr04_from_interrupt(uint8_t triggerPin, uint8_t echoPin ,int initEnvTemp = 22);
         void trigger();
         // set this function as the callback for interrupt on the "echoPin"
         void onChangeInterruptAction();
